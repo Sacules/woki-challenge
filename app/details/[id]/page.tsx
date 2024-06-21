@@ -18,7 +18,10 @@ export default async function Page({ params }: { params: { id: string } }) {
           sm: "minmax(auto, 300px) 1fr",
           md: "minmax(auto, 400px) 1fr",
         },
-        gridTemplateRows: "30vh 1fr auto",
+        gridTemplateRows: {
+          xs: "300px auto 1fr",
+          sm: "30vh 1fr auto",
+        },
       }}
     >
       <Box
@@ -38,12 +41,47 @@ export default async function Page({ params }: { params: { id: string } }) {
       />
       <Box
         sx={{
-          margin: "2rem",
-          gridRow: "1 / span 2",
+          gridRow: {
+            xs: "2 / span 1",
+            sm: "1 / span 1",
+          },
+          gridColumn: {
+            xs: "1 / span 1",
+            sm: "2 / span 1",
+          },
+          alignSelf: "end",
+          display: "flex",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+          alignItems: "baseline",
+          gap: "1rem",
+        }}
+      >
+        <Typography variant="h2" color={{ xs: "black", sm: "white" }}>
+          {data.title}
+        </Typography>
+        <Typography variant="subtitle2" color={{ xs: "black", sm: "white" }}>
+          {new Date(data.release_date).getFullYear()}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          margin: {
+            xs: 0,
+            sm: "2rem",
+          },
+          gridRow: {
+            xs: "1 / span 1",
+            sm: "1 / span 2",
+          },
           gridColumn: "1 / span 1",
           position: "relative",
           aspectRatio: "2/3",
           maxWidth: "100%",
+          maxHeight: "100%",
+          justifySelf: "center",
         }}
       >
         <Image
@@ -52,15 +90,14 @@ export default async function Page({ params }: { params: { id: string } }) {
           alt={data.title}
         />
       </Box>
-      <Container
-        maxWidth="xl"
+      <Box
         sx={{
           gridColumn: {
-            sx: "1 / span 1",
+            xs: "1 / span 1",
             sm: "2 / span 1",
           },
           gridRow: {
-            sx: "3 / span 1",
+            xs: "3 / span 1",
             sm: "2 / span 1",
           },
           pt: "2rem",
@@ -68,7 +105,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       >
         <Typography variant="h4">Overview</Typography>
         <Typography variant="body1">{data.overview}</Typography>
-      </Container>
+      </Box>
     </Box>
   );
 }
