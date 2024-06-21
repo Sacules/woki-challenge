@@ -1,5 +1,5 @@
 import { router } from "@/app/api";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p";
@@ -23,8 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         display: "grid",
         gridTemplateColumns: {
           xs: "1fr",
-          sm: "minmax(auto, 300px) 1fr",
-          md: "minmax(auto, 400px) 1fr",
+          sm: "1fr 65ch 1fr",
         },
         gridTemplateRows: {
           xs: "300px auto 1fr",
@@ -58,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
           gridColumn: {
             xs: "1 / span 1",
-            sm: "2 / span 1",
+            sm: "2 / span 2",
           },
           alignSelf: "end",
           pb: {
@@ -111,20 +110,32 @@ export default async function Page({ params }: { params: { id: string } }) {
             sm: "1 / span 2",
           },
           gridColumn: "1 / span 1",
-          position: "relative",
-          aspectRatio: "2/3",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          justifySelf: "center",
+          display: "grid",
+          gridTemplateRows: "450px repeat(2, min-content)",
+          justifyContent: "center",
         }}
       >
-        <Image
-          fill
-          priority
-          sizes="100%"
-          src={`${createTMDBImgUrl("w500", data.poster_path)}`}
-          alt={data.title}
-        />
+        <Box
+          sx={{
+            position: "relative",
+            aspectRatio: "2/3",
+            maxWidth: "300px",
+          }}
+        >
+          <Image
+            fill
+            priority
+            sizes="100%"
+            src={`${createTMDBImgUrl("w500", data.poster_path)}`}
+            alt={data.title}
+          />
+        </Box>
+        <Typography variant="h6" textAlign="center">
+          {data.vote_average} / 10
+        </Typography>
+        <Typography variant="subtitle2" textAlign="center">
+          {data.vote_count} votes
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -154,11 +165,67 @@ export default async function Page({ params }: { params: { id: string } }) {
             </Box>
           ))}
         </Box>
-        <Box maxWidth="65ch">
+        <Box>
           <Typography variant="h6" color="currentColor">
             {data.tagline}
           </Typography>
           <Typography variant="body2">{data.overview}</Typography>
+        </Box>
+        <Typography variant="h6" pt="1rem">
+          Cast
+        </Typography>
+        <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
+          {data.credits.cast.map((c) => (
+            <figure key={c.id} style={{ margin: 0 }}>
+              <Image
+                width={100}
+                height={150}
+                src={createTMDBImgUrl("w200", c.profile_path)}
+                alt={c.name}
+              />
+              <figcaption>
+                <Typography variant="body2" textAlign="center">
+                  {c.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  textAlign="center"
+                  fontStyle="italic"
+                >
+                  {c.character}
+                </Typography>
+              </figcaption>
+            </figure>
+          ))}
+        </Box>
+        <Typography variant="h6" pt="1rem">
+          Crew
+        </Typography>
+        <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
+          {data.credits.crew.map((c) => (
+            <figure key={`${c.id}-${c.job}`} style={{ margin: 0 }}>
+              {c.profile_path && (
+                <Image
+                  width={100}
+                  height={150}
+                  src={createTMDBImgUrl("w200", c.profile_path)}
+                  alt={c.name}
+                />
+              )}
+              <figcaption>
+                <Typography variant="body2" textAlign="center">
+                  {c.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  textAlign="center"
+                  fontStyle="italic"
+                >
+                  {c.job}
+                </Typography>
+              </figcaption>
+            </figure>
+          ))}
         </Box>
       </Box>
     </Box>
