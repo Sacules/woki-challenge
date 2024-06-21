@@ -1,5 +1,6 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Movie } from "../types";
+import Link from "next/link";
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/original";
 
@@ -23,38 +24,40 @@ export default function SearchResults({ results }: Props) {
           justifyContent="start"
           alignItems="center"
         >
-          <Card
-            sx={{ maxWidth: "300px", overflow: "visible !important" }}
-            elevation={0}
-          >
-            {r.poster_path && (
-              <CardMedia
-                sx={{ boxShadow: "1px 2px 5px grey", aspectRatio: "2 / 3" }}
-                component="img"
-                alt={r.title}
-                image={`${TMDB_IMAGE_URL}${r.poster_path}`}
-              />
-            )}
-            <CardContent sx={{ padding: "0.5rem" }}>
-              <Grid container>
-                <Grid xs={12}>
-                  <Typography textAlign="center" variant="subtitle2">
-                    {r.title}
-                  </Typography>
+          <Link href={`/details/${r.id}`}>
+            <Card
+              sx={{ maxWidth: "300px", overflow: "visible !important" }}
+              elevation={0}
+            >
+              {r.poster_path && (
+                <CardMedia
+                  sx={{ boxShadow: "1px 2px 5px grey", aspectRatio: "2 / 3" }}
+                  component="img"
+                  alt={r.title}
+                  image={`${TMDB_IMAGE_URL}${r.poster_path}`}
+                />
+              )}
+              <CardContent sx={{ padding: "0.5rem" }}>
+                <Grid container>
+                  <Grid xs={12}>
+                    <Typography textAlign="center" variant="subtitle2">
+                      {r.title}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    xs={12}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="end"
+                  >
+                    <Typography variant="caption">
+                      {new Date(r.release_date).getFullYear()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid
-                  xs={12}
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="end"
-                >
-                  <Typography variant="caption">
-                    {new Date(r.release_date).getFullYear()}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         </Grid>
       ))}
     </Grid>

@@ -1,16 +1,6 @@
-import axios from "axios";
 import Search from "@/app/ui/search";
 import SearchResults from "./ui/search-results";
-
-const API_KEY = process.env.API_KEY;
-
-const router = axios.create({
-  baseURL: "https://api.themoviedb.org/3",
-  headers: {
-    Accept: "application/json",
-    Authorization: `Bearer ${API_KEY}`,
-  },
-});
+import { router } from "./api";
 
 export default async function Page({ searchParams }) {
   const query = searchParams?.query || "";
