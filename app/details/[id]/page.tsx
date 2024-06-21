@@ -1,13 +1,21 @@
 import { router } from "@/app/api";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 
-const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p/original";
+const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p";
+
+function createTMDBImgUrl(size: string, path: string) {
+  return `${TMDB_IMAGE_URL}/${size}${path}`;
+}
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params?.id || "";
 
-  const { data } = await router.get(`/movie/${id}`);
+  const { data } = await router.get(`/movie/${id}`, {
+    params: { append_to_response: "credits" },
+  });
+
+  const directors = data.credits.crew.filter(({ job }) => job === "Director");
 
   return (
     <Box
@@ -20,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         },
         gridTemplateRows: {
           xs: "300px auto 1fr",
-          sm: "30vh 1fr auto",
+          sm: "35vh 1fr auto",
         },
       }}
     >
@@ -32,9 +40,12 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
           gridColumn: "1 / -1",
           gridRow: "1 / span 1",
-          backgroundImage: `url('${TMDB_IMAGE_URL}${data.backdrop_path}')`,
+          backgroundImage: `url('${createTMDBImgUrl(
+            "original",
+            data.backdrop_path,
+          )}')`,
           borderImage:
-            "fill 1 linear-gradient(hsl(0 0% 100% / .3), hsl(0 0% 0% / .9))",
+            "fill 1 linear-gradient(hsl(0 0% 0% / .2), hsl(0 0% 100% / 0.7), hsl(0 0% 100%))",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -50,21 +61,44 @@ export default async function Page({ params }: { params: { id: string } }) {
             sm: "2 / span 1",
           },
           alignSelf: "end",
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            sm: "row",
+          pb: {
+            sm: "1rem",
           },
-          alignItems: "baseline",
-          gap: "1rem",
         }}
       >
-        <Typography variant="h2" color={{ xs: "black", sm: "white" }}>
+        <Typography
+          variant="h2"
+          fontWeight={200}
+          letterSpacing={2}
+          color="currentColor"
+        >
           {data.title}
         </Typography>
-        <Typography variant="subtitle2" color={{ xs: "black", sm: "white" }}>
+        {data.original_title !== data.title && (
+          <Typography
+            variant="subtitle1"
+            letterSpacing={2}
+            color="currentColor"
+          >
+            {data.original_title}
+          </Typography>
+        )}
+        <Typography variant="subtitle1" color="currentColor" pt="0.5rem">
           {new Date(data.release_date).getFullYear()}
         </Typography>
+        <Box display="flex" gap="0.5rem">
+          {directors.map((d, i) => (
+            <Typography
+              key={d.id}
+              variant="subtitle1"
+              letterSpacing={2}
+              color="currentColor"
+            >
+              {d.name}
+              {i !== directors.length - 1 ? "," : ""}
+            </Typography>
+          ))}
+        </Box>
       </Box>
       <Box
         sx={{
@@ -86,7 +120,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       >
         <Image
           fill
-          src={`${TMDB_IMAGE_URL}${data.poster_path}`}
+          priority
+          sizes="100%"
+          src={`${createTMDBImgUrl("w500", data.poster_path)}`}
           alt={data.title}
         />
       </Box>
@@ -100,11 +136,30 @@ export default async function Page({ params }: { params: { id: string } }) {
             xs: "3 / span 1",
             sm: "2 / span 1",
           },
-          pt: "2rem",
         }}
       >
-        <Typography variant="h4">Overview</Typography>
-        <Typography variant="body1">{data.overview}</Typography>
+        <Box
+          component="ul"
+          display="flex"
+          alignItems="baseline"
+          sx={{ p: 0, pb: "1rem", m: 0, gap: "0.25rem" }}
+        >
+          <Box component="li" sx={{ listStyle: "none" }}>
+            <Typography variant="subtitle2">Genres:</Typography>
+          </Box>
+          {data.genres.map((g, i) => (
+            <Box key={g.id} component="li" sx={{ listStyle: "none" }}>
+              <Typography variant="caption">{g.name}</Typography>
+              {i !== data.genres.length - 1 ? "," : ""}
+            </Box>
+          ))}
+        </Box>
+        <Box maxWidth="65ch">
+          <Typography variant="h6" color="currentColor">
+            {data.tagline}
+          </Typography>
+          <Typography variant="body2">{data.overview}</Typography>
+        </Box>
       </Box>
     </Box>
   );
