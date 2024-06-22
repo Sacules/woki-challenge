@@ -30,6 +30,10 @@ export default async function Page({ params }: { params: { id: string } }) {
           xs: "300px auto 1fr",
           sm: "35vh 1fr auto",
         },
+        p: {
+          xs: "1rem",
+          sm: 0,
+        },
       }}
     >
       <Box
@@ -53,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Box
         sx={{
           gridRow: {
-            xs: "2 / span 1",
+            xs: "1 / span 2",
             sm: "1 / span 1",
           },
           gridColumn: {
@@ -64,10 +68,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           pb: {
             sm: "1rem",
           },
+          display: "grid",
         }}
       >
         <Typography
-          variant="h2"
+          variant="h3"
           fontWeight={200}
           letterSpacing={2}
           color="currentColor"
@@ -83,6 +88,35 @@ export default async function Page({ params }: { params: { id: string } }) {
             {data.original_title}
           </Typography>
         )}
+        <Box
+          sx={{
+            display: {
+              xs: "block",
+              sm: "none",
+            },
+            position: "relative",
+            aspectRatio: "2/3",
+            height: "100%",
+            width: "100%",
+            justifySelf: "center",
+          }}
+        >
+          <Image
+            fill
+            priority
+            sizes="100%"
+            src={`${createTMDBImgUrl("w500", data.poster_path)}`}
+            alt={data.title}
+          />
+        </Box>
+        <Box display={{ xs: "block", sm: "none" }}>
+          <Typography variant="h6" textAlign="center">
+            {data.vote_average} / 10
+          </Typography>
+          <Typography variant="subtitle2" textAlign="center">
+            {data.vote_count} votes
+          </Typography>
+        </Box>
         <Typography variant="subtitle1" color="currentColor" pt="0.5rem">
           {new Date(data.release_date).getFullYear()}
         </Typography>
@@ -111,8 +145,14 @@ export default async function Page({ params }: { params: { id: string } }) {
             sm: "1 / span 2",
           },
           gridColumn: "1 / span 1",
-          display: "grid",
-          gridTemplateRows: "450px repeat(2, min-content)",
+          display: {
+            xs: "none",
+            sm: "grid",
+          },
+          gridTemplateRows: {
+            xs: "250px repeat(2, min-content)",
+            sm: "450px repeat(2, min-content)",
+          },
           justifyContent: "center",
         }}
       >
@@ -120,6 +160,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           sx={{
             position: "relative",
             aspectRatio: "2/3",
+            height: "100%",
+            maxHeight: "600px",
             maxWidth: "300px",
           }}
         >
@@ -175,10 +217,23 @@ export default async function Page({ params }: { params: { id: string } }) {
         <Typography variant="h6" pt="1rem">
           Recommendations
         </Typography>
-        <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
+        <Box
+          display="flex"
+          sx={{
+            overflowX: {
+              xs: "hidden",
+              sm: "scroll",
+            },
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+          gap="2rem"
+          py="1rem"
+        >
           {data.recommendations.results.map((r) => (
             <Link key={r.id} href={`/details/${r.id}`}>
-              <figure style={{ margin: 0 }}>
+              <figure
+                style={{ margin: 0, display: "grid", placeItems: "center" }}
+              >
                 {r.poster_path && (
                   <Image
                     width={100}
