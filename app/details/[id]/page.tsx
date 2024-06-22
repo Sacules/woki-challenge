@@ -1,6 +1,7 @@
 import { router } from "@/app/api";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 
 const TMDB_IMAGE_URL = "https://image.tmdb.org/t/p";
 
@@ -176,21 +177,23 @@ export default async function Page({ params }: { params: { id: string } }) {
         </Typography>
         <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
           {data.recommendations.results.map((r) => (
-            <figure key={`${r.id}-${r.job}`} style={{ margin: 0 }}>
-              {r.poster_path && (
-                <Image
-                  width={100}
-                  height={150}
-                  src={createTMDBImgUrl("w200", r.poster_path)}
-                  alt={r.title}
-                />
-              )}
-              <figcaption>
-                <Typography variant="body2" textAlign="center">
-                  {r.title}
-                </Typography>
-              </figcaption>
-            </figure>
+            <Link key={r.id} href={`/details/${r.id}`}>
+              <figure style={{ margin: 0 }}>
+                {r.poster_path && (
+                  <Image
+                    width={100}
+                    height={150}
+                    src={createTMDBImgUrl("w200", r.poster_path)}
+                    alt={r.title}
+                  />
+                )}
+                <figcaption>
+                  <Typography variant="body2" textAlign="center">
+                    {r.title}
+                  </Typography>
+                </figcaption>
+              </figure>
+            </Link>
           ))}
         </Box>
       </Box>

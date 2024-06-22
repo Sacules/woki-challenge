@@ -16,8 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <h1>Kino</h1>
+      <body className={inter.className} style={{ margin: 0, padding: 0 }}>
         <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
       </body>
     </html>
