@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const id = params?.id || "";
 
   const { data } = await router.get(`/movie/${id}`, {
-    params: { append_to_response: "credits" },
+    params: { append_to_response: "credits,recommendations" },
   });
 
   const directors = data.credits.crew.filter(({ job }) => job === "Director");
@@ -172,56 +172,22 @@ export default async function Page({ params }: { params: { id: string } }) {
           <Typography variant="body2">{data.overview}</Typography>
         </Box>
         <Typography variant="h6" pt="1rem">
-          Cast
+          Recommendations
         </Typography>
         <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
-          {data.credits.cast.map((c) => (
-            <figure key={c.id} style={{ margin: 0 }}>
-              <Image
-                width={100}
-                height={150}
-                src={createTMDBImgUrl("w200", c.profile_path)}
-                alt={c.name}
-              />
-              <figcaption>
-                <Typography variant="body2" textAlign="center">
-                  {c.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontStyle="italic"
-                >
-                  {c.character}
-                </Typography>
-              </figcaption>
-            </figure>
-          ))}
-        </Box>
-        <Typography variant="h6" pt="1rem">
-          Crew
-        </Typography>
-        <Box display="flex" sx={{ overflowX: "scroll" }} gap="2rem" py="1rem">
-          {data.credits.crew.map((c) => (
-            <figure key={`${c.id}-${c.job}`} style={{ margin: 0 }}>
-              {c.profile_path && (
+          {data.recommendations.results.map((r) => (
+            <figure key={`${r.id}-${r.job}`} style={{ margin: 0 }}>
+              {r.poster_path && (
                 <Image
                   width={100}
                   height={150}
-                  src={createTMDBImgUrl("w200", c.profile_path)}
-                  alt={c.name}
+                  src={createTMDBImgUrl("w200", r.poster_path)}
+                  alt={r.title}
                 />
               )}
               <figcaption>
                 <Typography variant="body2" textAlign="center">
-                  {c.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontStyle="italic"
-                >
-                  {c.job}
+                  {r.title}
                 </Typography>
               </figcaption>
             </figure>
