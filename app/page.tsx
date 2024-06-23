@@ -19,7 +19,11 @@ export default async function Page({
         sx={{
           display: "grid",
           placeItems: "center",
-          p: "1rem",
+          px: {
+            xs: "1rem",
+            sm: 0,
+          },
+          py: "4rem",
         }}
       >
         {searchResults.data.results.length > 0 && (

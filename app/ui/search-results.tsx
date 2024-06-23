@@ -24,7 +24,10 @@ export default function SearchResults({ results }: Props) {
           justifyContent="start"
           alignItems="center"
         >
-          <Link href={`/details/${r.id}`}>
+          <Link
+            href={`/details/${r.id}`}
+            style={{ color: "black", textDecoration: "none" }}
+          >
             <Card
               sx={{
                 maxWidth: "300px",

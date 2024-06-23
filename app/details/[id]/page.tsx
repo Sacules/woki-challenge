@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
           gridColumn: {
             xs: "1 / span 1",
-            sm: "3 / span 2",
+            sm: "3 / span 1",
           },
           alignSelf: "end",
           pb: {
@@ -239,7 +239,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           py="1rem"
         >
           {data.recommendations.results.map((r) => (
-            <Link key={r.id} href={`/details/${r.id}`}>
+            <Link
+              key={r.id}
+              href={`/details/${r.id}`}
+              style={{ color: "black", textDecoration: "none" }}
+            >
               <Box
                 sx={{
                   margin: 0,
