@@ -22,16 +22,21 @@ export default async function Page({ params }: { params: { id: string } }) {
     <Box
       sx={{
         display: "grid",
+        columnGap: "2rem",
         gridTemplateColumns: {
           xs: "1fr",
-          sm: "1fr 65ch 1fr",
+          sm: "1fr 300px 65ch 1fr",
         },
         gridTemplateRows: {
           xs: "300px auto 1fr",
           sm: "35vh 1fr auto",
         },
-        p: {
+        px: {
           xs: "1rem",
+          sm: 0,
+        },
+        py: {
+          xs: "4rem",
           sm: 0,
         },
       }}
@@ -49,7 +54,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             data.backdrop_path,
           )}')`,
           borderImage:
-            "fill 1 linear-gradient(hsl(0 0% 0% / .2), hsl(0 0% 100% / 0.7), hsl(0 0% 100%))",
+            "fill 1 linear-gradient(hsl(0 0% 0% / .2), hsl(0 0% 100% / 0.7), hsl(6 45% 95%))",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -62,7 +67,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
           gridColumn: {
             xs: "1 / span 1",
-            sm: "2 / span 2",
+            sm: "3 / span 2",
           },
           alignSelf: "end",
           pb: {
@@ -138,13 +143,12 @@ export default async function Page({ params }: { params: { id: string } }) {
         sx={{
           margin: {
             xs: 0,
-            sm: "2rem",
           },
           gridRow: {
             xs: "1 / span 1",
             sm: "1 / span 2",
           },
-          gridColumn: "1 / span 1",
+          gridColumn: "2 / span 1",
           display: {
             xs: "none",
             sm: "grid",
@@ -153,7 +157,11 @@ export default async function Page({ params }: { params: { id: string } }) {
             xs: "250px repeat(2, min-content)",
             sm: "450px repeat(2, min-content)",
           },
+          gridTemplateColumns: {
+            xs: "1fr",
+          },
           justifyContent: "center",
+          alignSelf: "center",
         }}
       >
         <Box
@@ -184,7 +192,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         sx={{
           gridColumn: {
             xs: "1 / span 1",
-            sm: "2 / span 1",
+            sm: "3 / span 1",
           },
           gridRow: {
             xs: "3 / span 1",

@@ -21,7 +21,13 @@ export default function Home() {
 
   return (
     <TextField
-      label="Search movies"
+      hiddenLabel
+      variant="outlined"
+      InputProps={{
+        sx: { height: "2rem", width: "8rem" },
+        "aria-label": "Search for movies",
+        color: "info",
+      }}
       onChange={(e) => handleSearch(e.target.value)}
     />
   );

@@ -1,6 +1,9 @@
+import Search from "@/app/ui/search";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { AppBar, Typography } from "@mui/material";
+import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ margin: 0, padding: 0 }}>
+      <body
+        className={inter.className}
+        style={{ margin: 0, padding: 0, backgroundColor: "hsl(6 45% 95%)" }}
+      >
+        <AppBar
+          elevation={0}
+          color="transparent"
+          sx={{
+            px: "1rem",
+            py: "0.5rem",
+            display: "flex",
+            flexWrap: "nowrap",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            variant="h5"
+            textTransform="uppercase"
+            letterSpacing={2}
+            fontWeight={200}
+          >
+            Kino
+          </Typography>
+          <Search />
+        </AppBar>
         <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
       </body>
     </html>

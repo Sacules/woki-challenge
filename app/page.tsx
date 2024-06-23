@@ -1,9 +1,12 @@
-import Search from "@/app/ui/search";
 import SearchResults from "./ui/search-results";
 import { router } from "./api";
 import { Box } from "@mui/material";
 
-export default async function Page({ searchParams }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { query: string };
+}) {
   const query = searchParams?.query || "";
 
   const searchResults = await router.get("/search/movie", {
@@ -16,12 +19,10 @@ export default async function Page({ searchParams }) {
         sx={{
           display: "grid",
           placeItems: "center",
-          minHeight: "100vh",
           p: "1rem",
         }}
       >
-        <Search />
-        {searchResults.data && (
+        {searchResults.data.results.length > 0 && (
           <SearchResults results={searchResults.data.results} />
         )}
       </Box>

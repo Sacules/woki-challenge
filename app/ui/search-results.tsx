@@ -13,7 +13,7 @@ export default function SearchResults({ results }: Props) {
     <Grid
       container
       columns={{ xs: 1, sm: 2, md: 4, lg: 5, xl: 6 }}
-      sx={{ py: "2rem", gap: "1rem" }}
+      sx={{ py: "2rem", gap: "1rem", justifyContent: "center" }}
     >
       {results.map((r) => (
         <Grid
@@ -26,7 +26,11 @@ export default function SearchResults({ results }: Props) {
         >
           <Link href={`/details/${r.id}`}>
             <Card
-              sx={{ maxWidth: "300px", overflow: "visible !important" }}
+              sx={{
+                maxWidth: "300px",
+                overflow: "visible !important",
+                backgroundColor: "transparent",
+              }}
               elevation={0}
             >
               {r.poster_path && (
