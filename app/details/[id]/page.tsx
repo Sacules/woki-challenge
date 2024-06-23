@@ -79,6 +79,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <Typography
           variant="h3"
           fontWeight={200}
+          lineHeight={1.1}
           letterSpacing={2}
           color="currentColor"
         >
@@ -239,8 +240,16 @@ export default async function Page({ params }: { params: { id: string } }) {
         >
           {data.recommendations.results.map((r) => (
             <Link key={r.id} href={`/details/${r.id}`}>
-              <figure
-                style={{ margin: 0, display: "grid", placeItems: "center" }}
+              <Box
+                sx={{
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: {
+                    xs: "row",
+                    sm: "column",
+                  },
+                  placeItems: "center",
+                }}
               >
                 {r.poster_path && (
                   <Image
@@ -250,12 +259,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                     alt={r.title}
                   />
                 )}
-                <figcaption>
-                  <Typography variant="body2" textAlign="center">
-                    {r.title}
-                  </Typography>
-                </figcaption>
-              </figure>
+                <Typography variant="body2" textAlign="center">
+                  {r.title}
+                </Typography>
+              </Box>
             </Link>
           ))}
         </Box>
